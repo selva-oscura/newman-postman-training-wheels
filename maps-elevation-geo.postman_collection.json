@@ -1,0 +1,132 @@
+{
+	"variables": [],
+	"info": {
+		"name": "maps-elevation-geo",
+		"_postman_id": "901d97d8-a684-0e3f-f308-9a77a3ff8d6d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://maps.googleapis.com/maps/api/geocode/json",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"lat\", jsonData.results[0].geometry.location.lat);",
+							"postman.setEnvironmentVariable(\"lng\", jsonData.results[0].geometry.location.lng);",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyD-DcT9wWlOSNtPuRYyMFsLafoG7UjeQSY&address=345+Spear+St+San+Francisco+CA",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"geocode",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "AIzaSyD-DcT9wWlOSNtPuRYyMFsLafoG7UjeQSY",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "address",
+							"value": "345+Spear+St+San+Francisco+CA",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyD-DcT9wWlOSNtPuRYyMFsLafoG7UjeQSY&locations={{lat}},{{lng}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[`elevation is returned and a number: ${jsonData.results[0].elevation}`] = typeof jsonData.results[0].elevation === \"number\";",
+							"",
+							"postman.setEnvironmentVariable(\"elevation\", jsonData.results[0].elevation);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyD-DcT9wWlOSNtPuRYyMFsLafoG7UjeQSY&locations={{lat}},{{lng}}",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"elevation",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "AIzaSyD-DcT9wWlOSNtPuRYyMFsLafoG7UjeQSY",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "locations",
+							"value": "{{lat}},{{lng}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Og==",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
